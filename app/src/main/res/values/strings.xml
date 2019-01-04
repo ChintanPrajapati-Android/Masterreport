@@ -6,4 +6,13 @@
     <string name="family_adapter">Family adapter</string>
     <string name="search">Search</string>
 
+
+    <string-array name="header_array">
+        <item>Company</item>
+        <item>Date</item>
+        <item>Max Speed</item>
+        <item>Running Time</item>
+        <item>Avg Speed</item>
+    </string-array>
+
 </resources>

@@ -208,19 +208,11 @@ public abstract class TableFixHeaderAdapter<
         vfirstheader.bindFirstHeader(firstHeader);
         convertView = vfirstheader;
         if (clickListenerFirstHeader != null)
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickListenerFirstHeader.onClickItem(firstHeader, vfirstheader, row, column);
-                }
-            });
+            convertView.setOnClickListener(v -> clickListenerFirstHeader.onClickItem(firstHeader, vfirstheader, row, column));
         if (longClickListenerFirstHeader != null)
-            convertView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    longClickListenerFirstHeader.onLongClickItem(firstHeader, vfirstheader, row, column);
-                    return true;
-                }
+            convertView.setOnLongClickListener(v -> {
+                longClickListenerFirstHeader.onLongClickItem(firstHeader, vfirstheader, row, column);
+                return true;
             });
         return convertView;
     }
@@ -229,19 +221,11 @@ public abstract class TableFixHeaderAdapter<
         final VHEADER vheader = (convertView == null) ? inflateHeader() : (VHEADER) convertView;
         vheader.bindHeader(header.get(column), column);
         convertView = vheader;
-        if (clickListenerHeader != null) convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickListenerHeader.onClickItem(header.get(column), vheader, row, column);
-            }
-        });
+        if (clickListenerHeader != null) convertView.setOnClickListener(v -> clickListenerHeader.onClickItem(header.get(column), vheader, row, column));
         if (longClickListenerHeader != null)
-            convertView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    longClickListenerHeader.onLongClickItem(header.get(column), vheader, row, column);
-                    return true;
-                }
+            convertView.setOnLongClickListener(v -> {
+                longClickListenerHeader.onLongClickItem(header.get(column), vheader, row, column);
+                return true;
             });
         return convertView;
     }
@@ -251,19 +235,11 @@ public abstract class TableFixHeaderAdapter<
         vfirstbody.bindFirstBody(firstBody.get(row), row);
         convertView = vfirstbody;
         if (clickListenerFirstBody != null)
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickListenerFirstBody.onClickItem(firstBody.get(row), vfirstbody, row, column);
-                }
-            });
+            convertView.setOnClickListener(v -> clickListenerFirstBody.onClickItem(firstBody.get(row), vfirstbody, row, column));
         if (longClickListenerFirstBody != null)
-            convertView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    longClickListenerFirstBody.onLongClickItem(firstBody.get(row), vfirstbody, row, column);
-                    return true;
-                }
+            convertView.setOnLongClickListener(v -> {
+                longClickListenerFirstBody.onLongClickItem(firstBody.get(row), vfirstbody, row, column);
+                return true;
             });
         return convertView;
     }

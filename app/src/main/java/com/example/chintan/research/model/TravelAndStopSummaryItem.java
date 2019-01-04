@@ -163,4 +163,15 @@ public class TravelAndStopSummaryItem implements Serializable {
     public void setSPEEDUNIT(String SPEEDUNIT) {
         this.SPEEDUNIT = SPEEDUNIT;
     }
+
+
+    public String[] getUseAbleData() {
+        return new String[]{
+                getVEHICLE_NUMBER().concat("~" + getVEHICLE_TYPE()),
+                getCOMPANY(),
+                getDATE(),
+                getMAXSPEED(),
+                getRUNNINGTIME(),
+                getAVGSPEED()};
+    }
 }

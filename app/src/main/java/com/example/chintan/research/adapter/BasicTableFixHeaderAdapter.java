@@ -53,13 +53,10 @@ public class BasicTableFixHeaderAdapter extends TableFixHeaderAdapter<
     @Override
     protected List<Integer> getHeaderWidths() {
         List<Integer> headerWidths = new ArrayList<>();
-
         // First header
         headerWidths.add((int) context.getResources().getDimension(R.dimen._150dp));
-
         for (int i = 0; i < 20; i++)
             headerWidths.add((int) context.getResources().getDimension(R.dimen._100dp));
-
         return headerWidths;
     }
 
@@ -82,6 +79,4 @@ public class BasicTableFixHeaderAdapter extends TableFixHeaderAdapter<
     protected boolean isSection(List<List<String>> items, int row) {
         return false;
     }
-
-
 }

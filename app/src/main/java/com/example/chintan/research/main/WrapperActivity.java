@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 
 import com.example.chintan.research.R;
@@ -19,6 +18,7 @@ import com.example.chintan.research.widget.fixheader.main.TableFixHeaders;
 import com.example.chintan.research.widget.fixheader.wrapper.TableFixHeaderAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -30,7 +30,6 @@ import io.reactivex.schedulers.Schedulers;
 
 
 public class WrapperActivity extends AppCompatActivity implements TableFixHeaderAdapter.ClickListener<String, BasicCellViewGroup> {
-
     private ProgressDialog dialog;
     private BasicTableFixHeaderAdapter adapter;
     private ArrayList<TravelAndStopSummaryItem> alData;
@@ -41,16 +40,21 @@ public class WrapperActivity extends AppCompatActivity implements TableFixHeader
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper);
+
+        TableFixHeaders tablefixheaders = findViewById(R.id.tablefixheaders);
+
         dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
         dialog.setMessage("Please wait...");
-        TableFixHeaders tablefixheaders = findViewById(R.id.tablefixheaders);
+
 
         alData = new ArrayList<>();
         alTemp = new ArrayList<>();
+
+
         adapter = new BasicTableFixHeaderAdapter(this);
         adapter.setFirstHeader("Vehicle Number");
-        adapter.setHeader(getHeader());
+        adapter.setHeader(Arrays.asList(getResources().getStringArray(R.array.header_array)));
         tablefixheaders.setAdapter(adapter);
         adapter.setClickListenerHeader(this);
         adapter.setClickListenerFirstHeader((s, basicCellViewGroup, i, i1) -> {
@@ -60,9 +64,9 @@ public class WrapperActivity extends AppCompatActivity implements TableFixHeader
                             compareToIgnoreCase(right.getVEHICLE_NUMBER()));
             addData(alData);
         });
+
         getData();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -71,18 +75,6 @@ public class WrapperActivity extends AppCompatActivity implements TableFixHeader
         searchView.setOnQueryTextListener(new MySearchChangeListener());
         return true;
     }
-
-
-    private List<String> getHeader() {
-        List<String> header = new ArrayList<>();
-        header.add("Company");
-        header.add("Date");
-        header.add("Max Speed");
-        header.add("Running Time");
-        header.add("Avg Speed");
-        return header;
-    }
-
 
     private void getData() {
         dialog.show();
@@ -102,22 +94,7 @@ public class WrapperActivity extends AppCompatActivity implements TableFixHeader
                         dialog.dismiss();
                         try {
                             if (response.isSuccess()) {
-
                                 alData = response.getData();
-                              /*  alData.addAll(response.getData());
-                                alData.addAll(response.getData());
-                                alData.addAll(response.getData());
-                                alData.addAll(response.getData());
-                                alData.addAll(response.getData());
-                                alData.addAll(response.getData());
-                                alData.addAll(response.getData());
-                                alData.addAll(response.getData());
-                                alData.addAll(response.getData());
-                                alData.addAll(response.getData());
-                                alData.addAll(response.getData());
-                                alData.addAll(response.getData());*/
-
-
                                 alTemp = response.getData();
                                 addData(alData);
                             }
@@ -162,24 +139,8 @@ public class WrapperActivity extends AppCompatActivity implements TableFixHeader
 
     public void addData(ArrayList<TravelAndStopSummaryItem> alData) {
         List<List<String>> rows = new ArrayList<>();
-        for (int row = 0; row < alData.size(); row++) {
-            List<String> cols = new ArrayList<>();
-            TravelAndStopSummaryItem item = alData.get(row);
-            String[] data = new String[]{
-                    item.getVEHICLE_NUMBER().concat("~" + item.getVEHICLE_TYPE()),
-                    item.getCOMPANY(),
-                    item.getDATE(),
-                    item.getMAXSPEED(),
-                    item.getRUNNINGTIME(),
-                    item.getAVGSPEED()};
-
-            for (int col = 0; col <= getHeader().size(); col++) {
-                Log.e("COL", "onNext: " + col);
-                cols.add(data[col]);
-            }
-            rows.add(cols);
-        }
-
+        for (TravelAndStopSummaryItem item : alData)
+            rows.add(new ArrayList<>(Arrays.asList(item.getUseAbleData()).subList(0, adapter.getHeader().size() + 1)));
         adapter.setFirstBody(rows);
         adapter.setBody(rows);
         adapter.setSection(rows);
@@ -213,11 +174,7 @@ public class WrapperActivity extends AppCompatActivity implements TableFixHeader
 
         @Override
         public boolean onQueryTextChange(final String newText) {
-            try {
-                filter(newText);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            filter(newText);
             return true;
         }
     }
