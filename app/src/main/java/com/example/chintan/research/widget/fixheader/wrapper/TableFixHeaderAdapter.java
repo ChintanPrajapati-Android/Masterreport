@@ -248,19 +248,11 @@ public abstract class TableFixHeaderAdapter<
         final VBODY vbody = (convertView == null) ? inflateBody() : (VBODY) convertView;
         vbody.bindBody(body.get(row), row, column);
         convertView = vbody;
-        if (clickListenerBody != null) convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickListenerBody.onClickItem(body.get(row), vbody, row, column);
-            }
-        });
+        if (clickListenerBody != null) convertView.setOnClickListener(v -> clickListenerBody.onClickItem(body.get(row), vbody, row, column));
         if (longClickListenerBody != null)
-            convertView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    longClickListenerBody.onLongClickItem(body.get(row), vbody, row, column);
-                    return true;
-                }
+            convertView.setOnLongClickListener(v -> {
+                longClickListenerBody.onLongClickItem(body.get(row), vbody, row, column);
+                return true;
             });
         return convertView;
     }
@@ -270,19 +262,11 @@ public abstract class TableFixHeaderAdapter<
         vsection.bindSection(section.get(row), row, column + 1);
         convertView = vsection;
         if (clickListenerSection != null)
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickListenerSection.onClickItem(section.get(row), vsection, row, column);
-                }
-            });
+            convertView.setOnClickListener(v -> clickListenerSection.onClickItem(section.get(row), vsection, row, column));
         if (longClickListenerSection != null)
-            convertView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    longClickListenerSection.onLongClickItem(section.get(row), vsection, row, column);
-                    return true;
-                }
+            convertView.setOnLongClickListener(v -> {
+                longClickListenerSection.onLongClickItem(section.get(row), vsection, row, column);
+                return true;
             });
         return convertView;
     }

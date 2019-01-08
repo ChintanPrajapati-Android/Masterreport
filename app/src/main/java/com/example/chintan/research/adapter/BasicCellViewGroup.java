@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.chintan.research.BuildConfig;
 import com.example.chintan.research.R;
 import com.example.chintan.research.widget.fixheader.wrapper.TableFixHeaderAdapter;
@@ -26,7 +25,7 @@ public class BasicCellViewGroup extends FrameLayout
         TableFixHeaderAdapter.BodyBinder<List<String>>,
         TableFixHeaderAdapter.SectionBinder<List<String>> {
 
-    private Holder holder;
+    public Holder holder;
     private View view;
     private Context mContext;
 

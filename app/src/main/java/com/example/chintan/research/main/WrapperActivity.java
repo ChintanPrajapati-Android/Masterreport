@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.example.chintan.research.R;
 import com.example.chintan.research.adapter.BasicCellViewGroup;
@@ -47,10 +48,8 @@ public class WrapperActivity extends AppCompatActivity implements TableFixHeader
         dialog.setCancelable(false);
         dialog.setMessage("Please wait...");
 
-
         alData = new ArrayList<>();
         alTemp = new ArrayList<>();
-
 
         adapter = new BasicTableFixHeaderAdapter(this);
         adapter.setFirstHeader("Vehicle Number");
@@ -64,7 +63,6 @@ public class WrapperActivity extends AppCompatActivity implements TableFixHeader
                             compareToIgnoreCase(right.getVEHICLE_NUMBER()));
             addData(alData);
         });
-
         getData();
     }
 
@@ -86,7 +84,6 @@ public class WrapperActivity extends AppCompatActivity implements TableFixHeader
                 .subscribe(new Observer<ApiResponse<ArrayList<TravelAndStopSummaryItem>>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
                     }
 
                     @Override
@@ -97,6 +94,7 @@ public class WrapperActivity extends AppCompatActivity implements TableFixHeader
                                 alData = response.getData();
                                 alTemp = response.getData();
                                 addData(alData);
+                                Toast.makeText(WrapperActivity.this, "Successfully added..!!", Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -106,6 +104,7 @@ public class WrapperActivity extends AppCompatActivity implements TableFixHeader
                     @Override
                     public void onError(Throwable e) {
                         dialog.dismiss();
+                        Toast.makeText(WrapperActivity.this, "Something went wrong..!!", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -125,13 +124,13 @@ public class WrapperActivity extends AppCompatActivity implements TableFixHeader
                 Collections.sort(alData, (left, right) -> left.getDATE().compareToIgnoreCase(right.getDATE()));
                 break;
             case 2:
-                Collections.sort(alData, (left, right) -> left.getMAXSPEED().compareToIgnoreCase(right.getMAXSPEED()));
+                Collections.sort(alData, (left, right) -> right.getMAXSPEED().compareToIgnoreCase(left.getMAXSPEED()));
                 break;
             case 3:
-                Collections.sort(alData, (left, right) -> left.getRUNNINGTIME().compareToIgnoreCase(right.getRUNNINGTIME()));
+                Collections.sort(alData, (left, right) -> right.getRUNNINGTIME().compareToIgnoreCase(left.getRUNNINGTIME()));
                 break;
             case 4:
-                Collections.sort(alData, (left, right) -> left.getAVGSPEED().compareToIgnoreCase(right.getAVGSPEED()));
+                Collections.sort(alData, (left, right) -> right.getAVGSPEED().compareToIgnoreCase(left.getAVGSPEED()));
                 break;
         }
         addData(alData);
